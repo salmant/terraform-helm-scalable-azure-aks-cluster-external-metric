@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer
+spec:
+  selector:
+    matchLabels:
+      app: consumer
+  template:
+    metadata:
+      labels:
+        app: consumer
+    spec:
+      containers:
+      - name: consumer
+        image: {{ .Values.containerimage }}
+        args: ["{{ .Values.queue.name }}"]
+        env:
+          - name: SERVICEBUS_CONNECTION_STRING
+            valueFrom:
+              secretKeyRef:
+                name: servicebuskey
+                key: sb-connection-string
+

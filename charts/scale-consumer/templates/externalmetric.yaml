@@ -1,0 +1,16 @@
+apiVersion: azure.com/v1alpha2
+kind: ExternalMetric
+metadata:
+  name: {{ .Values.externalmetric.name }}
+spec:
+  type: azuremonitor
+  azure:
+    resourceGroup: {{ .Values.resourcegroup.name }}
+    resourceName: {{ .Values.servicebus.namespace }}
+    resourceProviderNamespace: Microsoft.ServiceBus
+    resourceType: namespaces
+  metric:
+    metricName: Messages
+    aggregation: Total
+    filter: EntityName eq '{{ .Values.queue.name }}'
+
